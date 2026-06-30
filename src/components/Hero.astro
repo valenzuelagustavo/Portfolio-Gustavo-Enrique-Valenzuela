@@ -1,0 +1,40 @@
+---
+/*
+  Hero: la primera sección, lo que se ve al entrar.
+  Estructura: una línea mono de "saludo", el título con el nombre, una frase
+  corta, y dos botones (proyectos / CV). El texto es PROVISORIO; lo reescribimos
+  en la fase de contenido. Los links salen de site.ts.
+*/
+import { site } from '../data/site';
+---
+
+<section
+  id="inicio"
+  class="relative flex min-h-[calc(100svh-3.5rem)] flex-col justify-center py-20"
+>
+  <!-- Glow decorativo de fondo (sutil, no recarga). aria-hidden: es decorativo. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -top-20 left-1/2 -z-10 h-64 w-[36rem] max-w-full -translate-x-1/2 rounded-full bg-accent-strong/15 blur-3xl"
+  >
+  </div>
+
+  <div class="flex flex-col gap-5">
+    <p class="font-mono text-sm text-accent">// hola, soy</p>
+
+    <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">
+      {site.name}
+    </h1>
+
+    <p class="max-w-prose text-pretty text-lg text-muted">
+      {site.role} enfocado en Python y desarrollo de software. Me gusta entender
+      cómo funcionan las cosas por dentro y construir proyectos para aprender en
+      serio. <span class="text-fg/70">(Texto provisorio — lo escribimos en la fase de contenido.)</span>
+    </p>
+
+    <div class="mt-2 flex flex-wrap gap-3">
+      <a href="#proyectos" class="btn-primary">Ver proyectos</a>
+      <a href={site.cvPath} class="btn-ghost" download>Descargar CV</a>
+    </div>
+  </div>
+</section>

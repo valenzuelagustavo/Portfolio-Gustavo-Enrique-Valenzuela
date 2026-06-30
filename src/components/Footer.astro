@@ -1,0 +1,53 @@
+---
+/*
+  Footer. Año dinámico (se calcula en el build), nombre, créditos del stack y
+  links sociales. Va a lo ancho completo, por eso se usa fuera del Container.
+*/
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border">
+  <div
+    class="mx-auto flex max-w-3xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted sm:flex-row"
+  >
+    <p>© {year} {site.name}</p>
+
+    <p class="font-mono text-xs">
+      Hecho con <span class="text-accent">Astro</span> + <span class="text-accent"
+        >Tailwind</span
+      >
+    </p>
+
+    <div class="flex items-center gap-4">
+      <a
+        href={`mailto:${site.email}`}
+        class="transition-colors hover:text-fg"
+        aria-label="Enviar email"
+      >
+        Email
+      </a>
+      <a
+        href={site.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-fg"
+      >
+        GitHub
+      </a>
+      {
+        site.linkedin && (
+          <a
+            href={site.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition-colors hover:text-fg"
+          >
+            LinkedIn
+          </a>
+        )
+      }
+    </div>
+  </div>
+</footer>

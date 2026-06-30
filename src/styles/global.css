@@ -57,6 +57,9 @@
     color: var(--color-fg);
     color-scheme: dark; /* le avisa al navegador que el tema es oscuro */
     scroll-behavior: smooth;
+    /* Deja aire arriba al saltar a un ancla, para que el header sticky (3.5rem)
+       no tape el título de la sección. */
+    scroll-padding-top: 4.5rem;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -180,5 +183,82 @@
   .link:hover {
     text-decoration-line: underline;
     text-decoration-color: var(--color-accent);
+  }
+
+  /* Estilos para el contenido Markdown de las páginas de detalle.
+     Reemplaza al plugin de tipografía: definimos a mano los elementos que
+     aparecen en un proyecto (títulos, párrafos, listas, código, citas). */
+  .prose {
+    color: var(--color-muted);
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+  .prose > * + * {
+    margin-top: 1.1em;
+  }
+  .prose h2 {
+    color: var(--color-fg);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 1.8em;
+  }
+  .prose h3 {
+    color: var(--color-fg);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 1.5em;
+  }
+  .prose strong {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+  .prose a {
+    color: var(--color-accent);
+    text-underline-offset: 3px;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  }
+  .prose a:hover {
+    text-decoration-color: var(--color-accent);
+  }
+  .prose ul {
+    list-style: disc;
+    padding-left: 1.25em;
+  }
+  .prose ol {
+    list-style: decimal;
+    padding-left: 1.25em;
+  }
+  .prose li::marker {
+    color: var(--color-accent);
+  }
+  .prose li + li {
+    margin-top: 0.4em;
+  }
+  .prose code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+  }
+  .prose pre {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  .prose pre code {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .prose blockquote {
+    border-left: 3px solid var(--color-accent-strong);
+    padding-left: 1rem;
+    color: var(--color-muted);
+    font-style: italic;
   }
 }

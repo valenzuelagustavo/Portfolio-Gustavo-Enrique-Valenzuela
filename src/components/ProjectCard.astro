@@ -1,0 +1,61 @@
+---
+/*
+  Tarjeta de un proyecto. Recibe una entrada de la content collection y muestra
+  título (enlazado a su página de detalle), descripción, chips de tecnologías y
+  los links (detalle / repo / demo).
+
+  Nota de accesibilidad: NO envolvemos toda la tarjeta en un <a>. Si lo
+  hiciéramos, los links internos (repo, demo) quedarían "anidados" dentro de
+  otro link, lo cual es inválido y confunde a los lectores de pantalla. Por eso
+  el enlace está en el título y en "Ver detalle".
+*/
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, tech, repo, demo } = project.data;
+const href = `/proyectos/${project.id}/`;
+---
+
+<article class="card flex flex-col gap-3 p-5">
+  <h3 class="text-lg font-semibold">
+    <a href={href} class="transition-colors hover:text-accent">{title}</a>
+  </h3>
+
+  <p class="text-sm text-muted">{description}</p>
+
+  <ul class="flex flex-wrap gap-2">
+    {tech.map((t) => <li class="chip">{t}</li>)}
+  </ul>
+
+  <div class="mt-auto flex flex-wrap items-center gap-4 pt-2 text-sm">
+    <a href={href} class="link font-medium">Ver detalle →</a>
+    {
+      repo && (
+        <a
+          href={repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted transition-colors hover:text-fg"
+        >
+          Repo
+        </a>
+      )
+    }
+    {
+      demo && (
+        <a
+          href={demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted transition-colors hover:text-fg"
+        >
+          Demo
+        </a>
+      )
+    }
+  </div>
+</article>

@@ -1,0 +1,56 @@
+---
+/*
+  Sección "Sobre mí".
+  Layout: el párrafo principal a la izquierda y una tarjeta-aside a la derecha
+  con "En foco" y "Busco" (se apila en mobile). El texto es un BORRADOR honesto
+  basado en lo que contaste; lo afinamos en la fase de contenido.
+*/
+---
+
+<section id="sobre-mi" class="border-t border-border py-20">
+  <p class="font-mono text-sm text-accent">// sobre mí</p>
+  <h2 class="mt-3 text-3xl font-bold tracking-tight">Quién soy</h2>
+
+  <div class="mt-8 grid gap-8 md:grid-cols-[1.6fr_1fr]">
+    <!-- Texto principal -->
+    <div class="flex flex-col gap-4 text-pretty text-muted">
+      <p>
+        Tengo 41 años y estoy haciendo un cambio de rumbo hacia la programación,
+        algo que siempre me atrajo. Hoy curso la <strong class="font-medium text-fg"
+          >Tecnicatura Universitaria en Programación</strong
+        > en la UTN (Argentina), donde trabajo sobre todo con Python.
+      </p>
+      <p>
+        Por mi cuenta estoy explorando <strong class="font-medium text-fg">C</strong> a
+        partir de un proyecto que me entusiasma: portar un juego de arcade a la
+        Sega Mega Drive. Me gusta entender cómo funcionan las cosas por dentro y
+        aprender construyendo.
+      </p>
+      <p class="text-sm text-fg/60">
+        (Borrador — el texto definitivo lo escribimos en la fase de contenido.)
+      </p>
+    </div>
+
+    <!-- Aside: en foco / busco -->
+    <aside class="card flex flex-col gap-5 p-6">
+      <div>
+        <h3 class="font-mono text-xs uppercase tracking-wider text-accent">
+          En foco
+        </h3>
+        <p class="mt-2 text-sm text-muted">
+          Afianzar fundamentos sólidos (lógica, estructuras de datos, POO) y
+          sumar proyectos reales.
+        </p>
+      </div>
+      <div class="border-t border-border pt-5">
+        <h3 class="font-mono text-xs uppercase tracking-wider text-accent">
+          Busco
+        </h3>
+        <p class="mt-2 text-sm text-muted">
+          Una primera oportunidad como desarrollador junior para aportar ganas,
+          constancia y seguir creciendo.
+        </p>
+      </div>
+    </aside>
+  </div>
+</section>

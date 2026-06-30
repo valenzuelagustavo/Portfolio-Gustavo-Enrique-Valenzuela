@@ -1,0 +1,61 @@
+---
+/*
+  Página de detalle de un proyecto: /proyectos/<slug>
+  - getStaticPaths() le dice a Astro qué páginas generar: una por cada proyecto
+    de la colección (descartando borradores). Astro las pre-renderiza en el
+    build, así cargan al instante y son ideales para SEO.
+  - render(project) convierte el cuerpo Markdown en el componente <Content />.
+*/
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Header from '../../components/Header.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, tech, repo, demo } = project.data;
+---
+
+<BaseLayout title={`${title} — ${'Gustavo Valenzuela'}`} description={description}>
+  <Header />
+
+  <Container as="main" class="py-16">
+    <a href="/#proyectos" class="link text-sm">← Volver a proyectos</a>
+
+    <h1 class="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
+    <p class="mt-3 text-lg text-muted">{description}</p>
+
+    <ul class="mt-5 flex flex-wrap gap-2">
+      {tech.map((t) => <li class="chip">{t}</li>)}
+    </ul>
+
+    {
+      (repo || demo) && (
+        <div class="mt-6 flex flex-wrap gap-3">
+          {demo && (
+            <a href={demo} target="_blank" rel="noopener noreferrer" class="btn-primary">
+              Ver demo
+            </a>
+          )}
+          {repo && (
+            <a href={repo} target="_blank" rel="noopener noreferrer" class="btn-ghost">
+              Ver repositorio
+            </a>
+          )}
+        </div>
+      )
+    }
+
+    <div class="prose mt-10 border-t border-border pt-8">
+      <Content />
+    </div>
+  </Container>
+</BaseLayout>
