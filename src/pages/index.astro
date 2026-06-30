@@ -1,0 +1,94 @@
+---
+/*
+  Vitrina del sistema de diseño (Fase 2).
+  Muestra los tokens y componentes en acción: hero, botones, tarjetas, chips,
+  niveles de texto y links. En la Fase 3 reemplazamos esto por las secciones
+  reales (Hero, Sobre mí, Skills, Proyectos, Contacto).
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/Container.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout>
+  <Container as="main" class="flex min-h-screen flex-col justify-center gap-16 py-24">
+    <!-- HERO -->
+    <section class="flex flex-col gap-5">
+      <p class="font-mono text-sm text-accent">// portfolio · sistema de diseño</p>
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+        Hola, soy <span class="text-accent">Gustavo</span>
+      </h1>
+      <p class="max-w-prose text-pretty text-muted">
+        Estudiante de programación enfocado en Python y desarrollo. Construyo
+        proyectos para aprender en serio. (Texto provisorio: el contenido real
+        lo escribimos en la fase de redacción.)
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="#proyectos" class="btn-primary">Ver proyectos</a>
+        <a href="/cv/" class="btn-ghost">Descargar CV</a>
+      </div>
+    </section>
+
+    <!-- PROYECTOS (preview con tarjetas) -->
+    <section id="proyectos" class="flex flex-col gap-5">
+      <h2 class="text-2xl font-semibold">
+        Proyectos <span class="font-mono text-sm text-muted">({projects.length})</span>
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          projects.map((p) => (
+            <article class="card flex flex-col gap-3 p-5">
+              <h3 class="text-lg font-semibold text-fg">{p.data.title}</h3>
+              <p class="text-sm text-muted">{p.data.description}</p>
+              <div class="mt-auto flex flex-wrap gap-2 pt-2">
+                {p.data.tech.map((t) => (
+                  <span class="chip">{t}</span>
+                ))}
+              </div>
+              {p.data.repo && (
+                <a href={p.data.repo} class="link text-sm font-medium">
+                  Ver repositorio →
+                </a>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- STYLE GUIDE: referencia rápida de los tokens -->
+    <section class="flex flex-col gap-5 border-t border-border pt-10">
+      <h2 class="text-2xl font-semibold">Sistema de diseño</h2>
+
+      <div class="grid gap-6 sm:grid-cols-2">
+        <div class="flex flex-col gap-3">
+          <p class="font-mono text-xs uppercase tracking-wider text-muted">Tipografía</p>
+          <p class="text-fg">Inter — texto principal, legible y neutro.</p>
+          <p class="text-muted">Inter en versión atenuada para descripciones.</p>
+          <p class="font-mono text-sm text-accent">JetBrains Mono — detalles de código</p>
+          <p>Un <a href="#" class="link">link de ejemplo</a> dentro de un párrafo.</p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <p class="font-mono text-xs uppercase tracking-wider text-muted">Colores</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="h-10 w-10 rounded-md bg-base ring-1 ring-border" title="base"></span>
+            <span class="h-10 w-10 rounded-md bg-surface ring-1 ring-border" title="surface"></span>
+            <span class="h-10 w-10 rounded-md bg-surface-2 ring-1 ring-border" title="surface-2"></span>
+            <span class="h-10 w-10 rounded-md bg-accent" title="accent"></span>
+            <span class="h-10 w-10 rounded-md bg-accent-strong" title="accent-strong"></span>
+          </div>
+          <p class="font-mono text-xs uppercase tracking-wider text-muted">Botones</p>
+          <div class="flex flex-wrap gap-3">
+            <button class="btn-primary">Primario</button>
+            <button class="btn-ghost">Secundario</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Container>
+</BaseLayout>

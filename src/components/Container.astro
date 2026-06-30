@@ -1,0 +1,21 @@
+---
+/*
+  Componente de layout reutilizable: centra el contenido y le pone un ancho
+  máximo y padding lateral consistente. Lo vamos a usar en todas las secciones
+  para que el sitio respire igual en todos lados. Ejemplo del patrón de
+  componentes que llenaremos en la Fase 3 (maquetado de secciones).
+
+  Acepta una prop `as` para elegir la etiqueta semántica (section, main, etc.)
+  y `class` para sumar utilidades extra desde afuera.
+*/
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+
+const { as: Tag = 'div', class: extraClass = '' } = Astro.props;
+---
+
+<Tag class={`mx-auto w-full max-w-3xl px-6 ${extraClass}`}>
+  <slot />
+</Tag>

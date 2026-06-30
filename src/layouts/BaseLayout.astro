@@ -1,0 +1,58 @@
+---
+/*
+  Layout base: el "molde" HTML que comparten todas las páginas.
+  Acá va el <head> (título, meta tags, SEO básico, Open Graph) y el <body>.
+  Cada página le pasa su title/description vía props y mete su contenido en el
+  <slot />. Centralizar esto evita repetir el <head> en cada página.
+*/
+import '../styles/global.css';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${site.name} — Portfolio`,
+  description = `Portfolio de ${site.name}, ${site.role}.`,
+} = Astro.props;
+
+// URL canónica (absoluta) de la página actual, para SEO y Open Graph.
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={site.defaultLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Tipografías: Inter (cuerpo) + JetBrains Mono (código/detalles).
+         preconnect abre la conexión a los servidores de fuentes antes de
+         tiempo para que carguen más rápido. display=swap muestra el texto con
+         una fuente del sistema mientras la real llega (evita texto invisible). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph (para que el link se vea bien al compartir). Lo completamos
+         con imagen y datos definitivos en fases siguientes. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+  </head>
+  <body class="min-h-screen bg-base font-sans text-fg antialiased">
+    <slot />
+  </body>
+</html>

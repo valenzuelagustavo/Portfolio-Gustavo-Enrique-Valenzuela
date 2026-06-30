@@ -1,0 +1,184 @@
+/*
+  SISTEMA DE DISEÑO (Fase 2) — Paleta B "Violeta tinta".
+
+  En Tailwind v4 la configuración vive en CSS. Acá hacemos tres cosas:
+    1. @theme        -> declaramos los TOKENS (colores, fuentes, radios). Cada
+                        token genera utilidades automáticas (ej: --color-accent
+                        habilita text-accent, bg-accent, border-accent...).
+    2. @layer base   -> estilos base de la página (foco accesible, links, etc.).
+    3. @layer components -> clases reutilizables (.btn, .chip, .card) que usan
+                        los tokens. Así no repetimos las mismas combinaciones de
+                        utilidades por todos lados.
+
+  Contrastes verificados sobre el fondo base (#0e0c15):
+    - texto fg (#ece8f1)      ~ 16:1  (excelente)
+    - texto muted (#a39bb3)   ~ 7.3:1 (cumple AA para texto normal)
+    - acento (#b69dff)        ~ 8:1   (cumple AA)
+    - blanco sobre accent-strong (#7c3aed) ~ 5.7:1 (cumple AA en botones)
+*/
+@import 'tailwindcss';
+
+@theme {
+  /* ---------- Color: superficies (grises con tinte violeta) ---------- */
+  --color-base: #0e0c15; /* fondo de la página (gris muy oscuro, no negro) */
+  --color-surface: #17131f; /* tarjetas y secciones elevadas */
+  --color-surface-2: #211a2e; /* hover / segundo nivel de elevación */
+  --color-border: #2a2336; /* bordes sutiles */
+  --color-border-strong: #3a3147; /* bordes con un poco más de presencia */
+
+  /* ---------- Color: texto ---------- */
+  --color-fg: #ece8f1; /* texto principal */
+  --color-muted: #a39bb3; /* texto secundario / descripciones */
+
+  /* ---------- Color: acento violeta ---------- */
+  --color-accent: #b69dff; /* acento CLARO: links y texto sobre fondo oscuro */
+  --color-accent-strong: #7c3aed; /* acento SATURADO: fondos de botón */
+  --color-accent-hover: #6d28d9; /* botón en hover (un poco más oscuro) */
+  --color-accent-contrast: #ffffff; /* texto sobre el acento saturado */
+
+  /* ---------- Tipografías ---------- */
+  /* Inter para el cuerpo (muy legible) y JetBrains Mono para código/detalles.
+     Se cargan en BaseLayout.astro. Dejamos fallbacks del sistema por si la
+     fuente todavía no cargó. */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', 'Cascadia Code', monospace;
+
+  /* ---------- Radios (esquinas) ---------- */
+  --radius-card: 0.875rem; /* tarjetas */
+  --radius-btn: 0.625rem; /* botones */
+}
+
+/* =========================================================
+   ESTILOS BASE
+   ========================================================= */
+@layer base {
+  html {
+    background-color: var(--color-base);
+    color: var(--color-fg);
+    color-scheme: dark; /* le avisa al navegador que el tema es oscuro */
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    /* mejor renderizado de fuentes en pantallas */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Accesibilidad: anillo de foco VISIBLE solo cuando se navega por teclado.
+     :focus-visible evita que el anillo aparezca al hacer click con el mouse,
+     pero lo mantiene para quien usa Tab. Imprescindible para teclado. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Color de selección de texto coherente con el acento */
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+    color: var(--color-fg);
+  }
+
+  /* Respeta a quienes prefieren menos movimiento (accesibilidad) */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* =========================================================
+   COMPONENTES REUTILIZABLES
+   (clases que combinan tokens; las usamos desde los .astro)
+   ========================================================= */
+@layer components {
+  /* Botón primario: fondo de acento saturado */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: var(--radius-btn);
+    font-weight: 600;
+    font-size: 0.9rem;
+    background-color: var(--color-accent-strong);
+    color: var(--color-accent-contrast);
+    border: 1px solid transparent;
+    transition: background-color 150ms ease, transform 150ms ease;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-accent-hover);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  /* Botón secundario: contorno sutil, sin relleno */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: var(--radius-btn);
+    font-weight: 600;
+    font-size: 0.9rem;
+    background-color: transparent;
+    color: var(--color-fg);
+    border: 1px solid var(--color-border-strong);
+    transition: border-color 150ms ease, color 150ms ease, background-color 150ms ease;
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  }
+
+  /* Chip / etiqueta de tecnología */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-accent);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Tarjeta (proyectos, secciones) */
+  .card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+  .card:hover {
+    border-color: var(--color-border-strong);
+    background-color: var(--color-surface-2);
+  }
+
+  /* Link de texto con subrayado animado sutil */
+  .link {
+    color: var(--color-accent);
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    transition: text-decoration-color 150ms ease;
+  }
+  .link:hover {
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-accent);
+  }
+}
