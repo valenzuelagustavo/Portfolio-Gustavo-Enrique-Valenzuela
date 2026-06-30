@@ -26,8 +26,11 @@ const projects = defineCollection({
       cover: image().optional(),
       // Orden manual en el listado: menor número = aparece primero.
       order: z.number().default(0),
-      // Fecha opcional del proyecto.
-      date: z.coerce.date().optional(),
+      // Tipo de proyecto: 'personal' (100% tuyo) o 'guiado' (nació de un curso).
+      // Se muestra como una etiqueta en la tarjeta y en el detalle (transparencia).
+      kind: z.enum(['personal', 'guiado']).default('personal'),
+      // Año opcional (se muestra como dato suelto).
+      year: z.number().optional(),
       // Si está en true, no se publica (útil para borradores).
       draft: z.boolean().default(false),
     }),
