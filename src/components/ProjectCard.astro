@@ -1,30 +1,28 @@
 ---
 /*
-  Tarjeta de un proyecto. Recibe una entrada de la content collection y muestra
-  título (enlazado a su página de detalle), descripción, chips de tecnologías y
-  los links (detalle / repo / demo).
+  Tarjeta de un proyecto. Recibe la entrada de la colección y el idioma.
+  El contenido (título, descripción) está en español; la interfaz (etiqueta de
+  tipo, "Ver detalle") se traduce. El link de detalle lleva el prefijo de idioma.
 
-  Nota de accesibilidad: NO envolvemos toda la tarjeta en un <a>. Si lo
-  hiciéramos, los links internos (repo, demo) quedarían "anidados" dentro de
-  otro link, lo cual es inválido y confunde a los lectores de pantalla. Por eso
-  el enlace está en el título y en "Ver detalle".
+  Nota de accesibilidad: NO envolvemos toda la tarjeta en un <a> para no anidar
+  links (el repo/demo quedarían dentro de otro link, lo cual es inválido).
 */
 import type { CollectionEntry } from 'astro:content';
+import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   project: CollectionEntry<'projects'>;
+  lang: Lang;
 }
 
-const { project } = Astro.props;
+const { project, lang } = Astro.props;
+const t = useTranslations(lang);
 const { title, description, tech, repo, demo, kind } = project.data;
-const href = `/proyectos/${project.id}/`;
+const href = `/${lang}/proyectos/${project.id}/`;
 
-// Etiqueta de tipo de proyecto (transparencia: personal vs. guiado por un curso).
-const kindLabel = kind === 'guiado' ? 'Proyecto guiado' : 'Proyecto personal';
+const kindLabel = kind === 'guiado' ? t('project.kind.guiado') : t('project.kind.personal');
 const kindClass =
-  kind === 'guiado'
-    ? 'border-border text-muted'
-    : 'border-accent/40 text-accent';
+  kind === 'guiado' ? 'border-border text-muted' : 'border-accent/40 text-accent';
 ---
 
 <article class="card flex flex-col gap-3 p-5">
@@ -42,11 +40,11 @@ const kindClass =
   <p class="text-sm text-muted">{description}</p>
 
   <ul class="flex flex-wrap gap-2">
-    {tech.map((t) => <li class="chip">{t}</li>)}
+    {tech.map((techItem) => <li class="chip">{techItem}</li>)}
   </ul>
 
   <div class="mt-auto flex flex-wrap items-center gap-4 pt-2 text-sm">
-    <a href={href} class="link font-medium">Ver detalle →</a>
+    <a href={href} class="link font-medium">{t('project.detail')}</a>
     {
       repo && (
         <a

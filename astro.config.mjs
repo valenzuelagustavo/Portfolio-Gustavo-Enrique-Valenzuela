@@ -5,8 +5,20 @@ import tailwindcss from '@tailwindcss/vite';
 // Documentación: https://astro.build/config
 export default defineConfig({
   // TODO: reemplazar por la URL final del deploy en Vercel.
-  // Se usa para generar URLs absolutas en el sitemap y en las etiquetas Open Graph.
   site: 'https://gustavovalenzuela.vercel.app',
+
+  // Internacionalización (i18n) nativa de Astro.
+  // - locales: idiomas disponibles.
+  // - defaultLocale: el idioma por defecto (español).
+  // - prefixDefaultLocale: true -> TODAS las rutas llevan prefijo (/es/ y /en/).
+  //   La home "/" la redirigimos a "/es/" desde src/pages/index.astro.
+  i18n: {
+    locales: ['es', 'en'],
+    defaultLocale: 'es',
+    routing: {
+      prefixDefaultLocale: true,
+    },
+  },
 
   // Tailwind v4 se integra como plugin de Vite (no necesita tailwind.config.js).
   vite: {

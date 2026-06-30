@@ -1,59 +1,52 @@
 ---
 /*
-  Sección "Sobre mí".
-  Layout: el párrafo principal a la izquierda y una tarjeta-aside a la derecha
-  con "En foco" y "Busco" (se apila en mobile). El texto es un BORRADOR honesto
-  basado en lo que contaste; lo afinamos en la fase de contenido.
+  Sección "Sobre mí". Recibe `lang`. Los párrafos vienen del diccionario y
+  contienen <strong>, por eso se renderizan con set:html. El estilo de esos
+  <strong> se define abajo, en el bloque <style> con scope a este componente.
 */
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <section id="sobre-mi" class="border-t border-border py-20">
-  <p class="font-mono text-sm text-accent">// sobre mí</p>
-  <h2 class="mt-3 text-3xl font-bold tracking-tight">Quién soy</h2>
+  <p class="font-mono text-sm text-accent">{t('about.tag')}</p>
+  <h2 class="mt-3 text-3xl font-bold tracking-tight">{t('about.title')}</h2>
 
   <div class="mt-8 grid gap-8 md:grid-cols-[1.6fr_1fr]">
-    <!-- Texto principal -->
-    <div class="flex flex-col gap-4 text-pretty text-muted">
-      <p>
-        Tengo 41 años y estoy haciendo un cambio de rumbo hacia la programación,
-        algo que siempre me atrajo. Hoy curso la <strong class="font-medium text-fg"
-          >Tecnicatura Universitaria en Programación</strong
-        > en la UTN (Argentina), donde trabajo sobre todo con Python.
-      </p>
-      <p>
-        Por mi cuenta estoy explorando <strong class="font-medium text-fg">C</strong> a
-        partir de un proyecto que me entusiasma: portar un juego de arcade a la
-        Sega Mega Drive. Me gusta entender cómo funcionan las cosas por dentro y
-        aprender construyendo.
-      </p>
-      <p>
-        Esa curiosidad ya la llevé al trabajo: armé <strong class="font-medium text-fg"
-          >Dosto</strong
-        >, una herramienta en Python que automatiza tareas que antes hacíamos a
-        mano. Me motiva usar el código para resolver problemas reales.
-      </p>
+    <div class="about-prose flex flex-col gap-4 text-pretty text-muted">
+      <p set:html={t('about.p1')} />
+      <p set:html={t('about.p2')} />
+      <p set:html={t('about.p3')} />
     </div>
 
-    <!-- Aside: en foco / busco -->
     <aside class="card flex flex-col gap-5 p-6">
       <div>
         <h3 class="font-mono text-xs uppercase tracking-wider text-accent">
-          En foco
+          {t('about.focus.title')}
         </h3>
-        <p class="mt-2 text-sm text-muted">
-          Afianzar fundamentos sólidos (lógica, estructuras de datos, POO) y
-          sumar proyectos reales.
-        </p>
+        <p class="mt-2 text-sm text-muted">{t('about.focus.text')}</p>
       </div>
       <div class="border-t border-border pt-5">
         <h3 class="font-mono text-xs uppercase tracking-wider text-accent">
-          Busco
+          {t('about.seeking.title')}
         </h3>
-        <p class="mt-2 text-sm text-muted">
-          Una primera oportunidad como desarrollador junior para aportar ganas,
-          constancia y seguir creciendo.
-        </p>
+        <p class="mt-2 text-sm text-muted">{t('about.seeking.text')}</p>
       </div>
     </aside>
   </div>
 </section>
+
+<style>
+  /* Las negritas dentro de los párrafos de "Sobre mí" usan el color de texto
+     principal para resaltar sin gritar. */
+  .about-prose :global(strong) {
+    color: var(--color-fg);
+    font-weight: 500;
+  }
+</style>

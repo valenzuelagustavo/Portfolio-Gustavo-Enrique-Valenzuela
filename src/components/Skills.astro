@@ -1,27 +1,30 @@
 ---
 /*
-  Sección "Skills".
-  Recorre los grupos de src/data/skills.ts y muestra cada uno con su título y
-  sus tecnologías como "chips". Una grilla simple que se adapta de 1 a 2
-  columnas según el ancho de pantalla.
+  Sección "Skills". Recibe `lang`. El heading y los títulos de grupo salen del
+  diccionario; los items (tecnologías) se muestran tal cual.
 */
 import { skillGroups } from '../data/skills';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <section id="skills" class="border-t border-border py-20">
-  <p class="font-mono text-sm text-accent">// skills</p>
-  <h2 class="mt-3 text-3xl font-bold tracking-tight">Tecnologías</h2>
-  <p class="mt-3 max-w-prose text-muted">
-    Lo que manejo y estoy usando hoy. Prefiero mostrar pocas cosas bien antes
-    que inflar la lista.
-  </p>
+  <p class="font-mono text-sm text-accent">{t('skills.tag')}</p>
+  <h2 class="mt-3 text-3xl font-bold tracking-tight">{t('skills.title')}</h2>
+  <p class="mt-3 max-w-prose text-muted">{t('skills.intro')}</p>
 
   <div class="mt-8 grid gap-6 sm:grid-cols-2">
     {
       skillGroups.map((group) => (
         <div class="card p-6">
           <h3 class="font-mono text-xs uppercase tracking-wider text-muted">
-            {group.title}
+            {t(group.titleKey)}
           </h3>
           <ul class="mt-4 flex flex-wrap gap-2">
             {group.items.map((item) => (

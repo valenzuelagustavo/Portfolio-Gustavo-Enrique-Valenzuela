@@ -1,18 +1,23 @@
 ---
 /*
-  Hero: la primera sección, lo que se ve al entrar.
-  Estructura: una línea mono de "saludo", el título con el nombre, una frase
-  corta, y dos botones (proyectos / CV). El texto es PROVISORIO; lo reescribimos
-  en la fase de contenido. Los links salen de site.ts.
+  Hero: la primera sección. Recibe `lang` y toma todos sus textos del
+  diccionario de traducciones. El nombre y la ruta del CV no cambian con el idioma.
 */
 import { site } from '../data/site';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <section
   id="inicio"
   class="relative flex min-h-[calc(100svh-3.5rem)] flex-col justify-center py-20"
 >
-  <!-- Glow decorativo de fondo (sutil, no recarga). aria-hidden: es decorativo. -->
   <div
     aria-hidden="true"
     class="pointer-events-none absolute -top-20 left-1/2 -z-10 h-64 w-[36rem] max-w-full -translate-x-1/2 rounded-full bg-accent-strong/15 blur-3xl"
@@ -20,21 +25,19 @@ import { site } from '../data/site';
   </div>
 
   <div class="flex flex-col gap-5">
-    <p class="font-mono text-sm text-accent">// hola, soy</p>
+    <p class="font-mono text-sm text-accent">{t('hero.tag')}</p>
 
     <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">
       {site.name}
     </h1>
 
     <p class="max-w-prose text-pretty text-lg text-muted">
-      {site.role} enfocado en Python, explorando además el desarrollo retro en C.
-      Me gusta entender cómo funcionan las cosas por dentro y construir
-      herramientas y proyectos para aprender en serio.
+      {t('hero.lead')}
     </p>
 
     <div class="mt-2 flex flex-wrap gap-3">
-      <a href="#proyectos" class="btn-primary">Ver proyectos</a>
-      <a href={site.cvPath} class="btn-ghost" download>Descargar CV</a>
+      <a href="#proyectos" class="btn-primary">{t('hero.cta.projects')}</a>
+      <a href={site.cvPath} class="btn-ghost" download>{t('hero.cta.cv')}</a>
     </div>
   </div>
 </section>

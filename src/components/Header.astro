@@ -1,70 +1,83 @@
 ---
 /*
-  Header sticky (fijo arriba) y responsive.
-  - En desktop: nombre a la izquierda, navegación a la derecha.
-  - En mobile: botón hamburguesa que despliega un panel con los links.
-  El menú mobile usa un poquito de JS (al final) con atributos ARIA para que
-  sea accesible: el lector de pantalla sabe si está abierto o cerrado.
-  Los links de navegación salen de src/data/site.ts (un solo lugar para editarlos).
+  Header sticky y responsive, ahora bilingüe.
+  - Recibe `lang` (idioma actual).
+  - Los links de navegación se arman con el prefijo de idioma: /es/#... o /en/#...
+  - El selector de idioma (EN/ES) lleva a la MISMA página en el otro idioma:
+    toma la ruta actual, le saca el prefijo y le pone el del otro idioma.
 */
-import { site, nav } from '../data/site';
+import { navItems, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Idioma "del otro botón" y la ruta equivalente en ese idioma.
+const other: Lang = lang === 'es' ? 'en' : 'es';
+const rest = Astro.url.pathname.replace(/^\/(es|en)/, '') || '/';
+const switchHref = `/${other}${rest}`;
 ---
 
-<header
-  class="sticky top-0 z-50 border-b border-border/60 bg-base/80 backdrop-blur-md"
->
+<header class="sticky top-0 z-50 border-b border-border/60 bg-base/80 backdrop-blur-md">
   <nav
     class="mx-auto flex h-14 max-w-3xl items-center justify-between px-6"
-    aria-label="Navegación principal"
+    aria-label={t('nav.aria')}
   >
-    <!-- Logo / nombre -->
     <a
-      href="/#inicio"
+      href={`/${lang}/`}
       class="font-mono text-sm font-semibold tracking-tight text-fg transition-colors hover:text-accent"
     >
-      {site.name.split(' ')[0]}<span class="text-accent">.dev</span>
+      Gustavo<span class="text-accent">.dev</span>
     </a>
 
-    <!-- Navegación (desktop) -->
-    <ul class="hidden items-center gap-6 sm:flex">
-      {
-        nav.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              class="text-sm text-muted transition-colors hover:text-fg"
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    <div class="flex items-center gap-5">
+      <!-- Navegación (desktop) -->
+      <ul class="hidden items-center gap-6 sm:flex">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={`/${lang}/#${item.id}`}
+                class="text-sm text-muted transition-colors hover:text-fg"
+              >
+                {t(item.key)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
 
-    <!-- Botón menú (mobile) -->
-    <button
-      id="menu-toggle"
-      type="button"
-      class="-mr-2 inline-flex items-center justify-center rounded-md p-2 text-fg transition-colors hover:text-accent sm:hidden"
-      aria-label="Abrir menú"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <svg
-        width="22"
-        height="22"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        aria-hidden="true"
+      <!-- Selector de idioma -->
+      <a
+        href={switchHref}
+        class="rounded-md border border-border px-2 py-1 font-mono text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+        aria-label={t('header.switchLang')}
+        title={t('header.switchLang')}
       >
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
+        {other.toUpperCase()}
+      </a>
+
+      <!-- Botón menú (mobile) -->
+      <button
+        id="menu-toggle"
+        type="button"
+        class="-mr-2 inline-flex items-center justify-center rounded-md p-2 text-fg transition-colors hover:text-accent sm:hidden"
+        aria-label={t('header.openMenu')}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-open-label={t('header.openMenu')}
+        data-close-label={t('header.closeMenu')}
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
   </nav>
 
   <!-- Panel de navegación (mobile) -->
@@ -75,14 +88,14 @@ import { site, nav } from '../data/site';
   >
     <ul class="mx-auto flex max-w-3xl flex-col px-6 py-2">
       {
-        nav.map((item) => (
+        navItems.map((item) => (
           <li>
             <a
-              href={item.href}
+              href={`/${lang}/#${item.id}`}
               data-menu-link
               class="block py-2.5 text-muted transition-colors hover:text-fg"
             >
-              {item.label}
+              {t(item.key)}
             </a>
           </li>
         ))
@@ -95,11 +108,13 @@ import { site, nav } from '../data/site';
   // Toggle del menú mobile + accesibilidad (aria-expanded) + cierre al navegar.
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
+  const openLabel = toggle?.dataset.openLabel ?? 'Abrir menú';
+  const closeLabel = toggle?.dataset.closeLabel ?? 'Cerrar menú';
 
   function closeMenu() {
     menu?.setAttribute('hidden', '');
     toggle?.setAttribute('aria-expanded', 'false');
-    toggle?.setAttribute('aria-label', 'Abrir menú');
+    toggle?.setAttribute('aria-label', openLabel);
   }
 
   if (toggle && menu) {
@@ -110,11 +125,10 @@ import { site, nav } from '../data/site';
       } else {
         menu.removeAttribute('hidden');
         toggle.setAttribute('aria-expanded', 'true');
-        toggle.setAttribute('aria-label', 'Cerrar menú');
+        toggle.setAttribute('aria-label', closeLabel);
       }
     });
 
-    // Al tocar un link del menú, lo cerramos.
     menu.querySelectorAll('[data-menu-link]').forEach((link) => {
       link.addEventListener('click', closeMenu);
     });

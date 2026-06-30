@@ -1,29 +1,34 @@
 ---
 /*
   Layout base: el "molde" HTML que comparten todas las páginas.
-  Acá va el <head> (título, meta tags, SEO básico, Open Graph) y el <body>.
-  Cada página le pasa su title/description vía props y mete su contenido en el
-  <slot />. Centralizar esto evita repetir el <head> en cada página.
+  Ahora recibe `lang` para poner el idioma correcto en <html lang> y en las
+  etiquetas de SEO. Los hreflang le dicen a Google que existe la misma página en
+  el otro idioma (importante para sitios bilingües).
 */
 import '../styles/global.css';
 import { site } from '../data/site';
+import type { Lang } from '../i18n/ui';
 
 interface Props {
+  lang?: Lang;
   title?: string;
   description?: string;
 }
 
 const {
+  lang = 'es',
   title = `${site.name} — Portfolio`,
   description = `Portfolio de ${site.name}, ${site.role}.`,
 } = Astro.props;
 
-// URL canónica (absoluta) de la página actual, para SEO y Open Graph.
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Ruta sin el prefijo de idioma, para armar los hreflang del otro idioma.
+const rest = Astro.url.pathname.replace(/^\/(es|en)/, '') || '/';
 ---
 
 <!doctype html>
-<html lang={site.defaultLocale}>
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,10 +36,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Tipografías: Inter (cuerpo) + JetBrains Mono (código/detalles).
-         preconnect abre la conexión a los servidores de fuentes antes de
-         tiempo para que carguen más rápido. display=swap muestra el texto con
-         una fuente del sistema mientras la real llega (evita texto invisible). -->
+    <!-- Versiones por idioma de esta misma página (SEO) -->
+    <link rel="alternate" hreflang="es" href={new URL(`/es${rest}`, Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(`/en${rest}`, Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(`/es${rest}`, Astro.site)} />
+
+    <!-- Tipografías: Inter (cuerpo) + JetBrains Mono (código/detalles). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -45,12 +52,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <!-- Open Graph (para que el link se vea bien al compartir). Lo completamos
-         con imagen y datos definitivos en fases siguientes. -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_AR' : 'en_US'} />
   </head>
   <body class="min-h-screen bg-base font-sans text-fg antialiased">
     <slot />

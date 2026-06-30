@@ -1,10 +1,17 @@
 ---
 /*
-  Footer. Año dinámico (se calcula en el build), nombre, créditos del stack y
+  Footer. Recibe `lang`. Año dinámico (build), nombre, créditos del stack y
   links sociales. Va a lo ancho completo, por eso se usa fuera del Container.
 */
 import { site } from '../data/site';
+import { useTranslations, type Lang } from '../i18n/ui';
 
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
 ---
 
@@ -15,35 +22,21 @@ const year = new Date().getFullYear();
     <p>© {year} {site.name}</p>
 
     <p class="font-mono text-xs">
-      Hecho con <span class="text-accent">Astro</span> + <span class="text-accent"
+      {t('footer.madeWith')} <span class="text-accent">Astro</span> + <span class="text-accent"
         >Tailwind</span
       >
     </p>
 
     <div class="flex items-center gap-4">
-      <a
-        href={`mailto:${site.email}`}
-        class="transition-colors hover:text-fg"
-        aria-label="Enviar email"
-      >
+      <a href={`mailto:${site.email}`} class="transition-colors hover:text-fg" aria-label="Email">
         Email
       </a>
-      <a
-        href={site.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-fg"
-      >
+      <a href={site.github} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-fg">
         GitHub
       </a>
       {
         site.linkedin && (
-          <a
-            href={site.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="transition-colors hover:text-fg"
-          >
+          <a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-fg">
             LinkedIn
           </a>
         )
