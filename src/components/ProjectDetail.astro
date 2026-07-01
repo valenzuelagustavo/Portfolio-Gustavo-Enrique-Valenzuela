@@ -2,8 +2,9 @@
 /*
   Página de detalle de un proyecto, como componente reutilizable.
   Lo usan tanto /es/proyectos/[slug] como /en/proyectos/[slug], pasándole el
-  idioma. El contenido del proyecto (Markdown) está en español; lo que se
-  traduce es la interfaz (volver, etiquetas, botones).
+  idioma. Cada ruta ya le pasa el proyecto correspondiente a SU idioma (viene
+  de content/projects/es/ o content/projects/en/), así que acá no hay que
+  traducir el contenido: solo la interfaz (volver, etiquetas, botones).
 */
 import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';

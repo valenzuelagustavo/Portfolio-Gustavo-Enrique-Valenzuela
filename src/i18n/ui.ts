@@ -56,6 +56,9 @@ export const ui = {
     'skills.group.frameworks': 'Frameworks y librerías',
     'skills.group.tools': 'Herramientas',
     'skills.group.fundamentals': 'Fundamentos',
+    'skills.item.cli': 'Línea de comandos',
+    'skills.item.oop': 'Programación orientada a objetos',
+    'skills.item.problemSolving': 'Lógica y resolución de problemas',
 
     'projects.tag': '// proyectos',
     'projects.title': 'Proyectos',
@@ -115,6 +118,9 @@ export const ui = {
     'skills.group.frameworks': 'Frameworks & libraries',
     'skills.group.tools': 'Tools',
     'skills.group.fundamentals': 'Fundamentals',
+    'skills.item.cli': 'Command line',
+    'skills.item.oop': 'Object-oriented programming',
+    'skills.item.problemSolving': 'Logic & problem solving',
 
     'projects.tag': '// projects',
     'projects.title': 'Projects',

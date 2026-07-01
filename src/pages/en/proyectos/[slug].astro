@@ -1,17 +1,19 @@
 ---
 /*
   Detalle de proyecto en inglés: /en/proyectos/<slug>
-  Mismo contenido (en español) con la interfaz en inglés (lang="en").
+  Igual que la versión española pero tomando los proyectos de projects/en/.
 */
 import { getCollection } from 'astro:content';
 import ProjectDetail from '../../../components/ProjectDetail.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects', ({ data }) => !data.draft);
-  return projects.map((project) => ({
-    params: { slug: project.id },
-    props: { project },
-  }));
+  return projects
+    .filter((project) => project.id.startsWith('en/'))
+    .map((project) => ({
+      params: { slug: project.id.split('/').pop() },
+      props: { project },
+    }));
 }
 
 const { project } = Astro.props;

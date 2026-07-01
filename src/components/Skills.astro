@@ -1,7 +1,8 @@
 ---
 /*
   Sección "Skills". Recibe `lang`. El heading y los títulos de grupo salen del
-  diccionario; los items (tecnologías) se muestran tal cual.
+  diccionario. Los items pueden ser un string plano (nombre propio, se muestra
+  tal cual) o un objeto { key } (se traduce con t()).
 */
 import { skillGroups } from '../data/skills';
 import { useTranslations, type Lang } from '../i18n/ui';
@@ -28,7 +29,7 @@ const t = useTranslations(lang);
           </h3>
           <ul class="mt-4 flex flex-wrap gap-2">
             {group.items.map((item) => (
-              <li class="chip">{item}</li>
+              <li class="chip">{typeof item === 'string' ? item : t(item.key)}</li>
             ))}
           </ul>
         </div>

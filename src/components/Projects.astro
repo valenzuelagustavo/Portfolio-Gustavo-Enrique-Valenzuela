@@ -2,7 +2,9 @@
 /*
   Sección "Proyectos". Recibe `lang` y se lo pasa a cada tarjeta (para que los
   links de detalle y las etiquetas estén en el idioma correcto). El contenido de
-  los proyectos sigue en español; acá solo se traduce la interfaz.
+  cada proyecto también está en el idioma correcto: lo filtramos más abajo por
+  el prefijo del id ("es/" o "en/"), así que cada tarjeta ya recibe la versión
+  del proyecto que corresponde.
 */
 import { getCollection } from 'astro:content';
 import ProjectCard from './ProjectCard.astro';
@@ -15,9 +17,12 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+// El contenido vive en subcarpetas por idioma (projects/es/, projects/en/).
+// El id de cada entrada arranca con el idioma (ej: "es/dosto"), así que
+// filtramos por el idioma actual y ordenamos por "order".
+const projects = (await getCollection('projects', ({ data }) => !data.draft))
+  .filter((p) => p.id.startsWith(`${lang}/`))
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <section id="proyectos" class="border-t border-border py-20">

@@ -13,7 +13,7 @@ interface Props {
   class?: string;
 }
 
-const { as: Tag = 'div', class: extraClass = '' } = Astro.props;
+const { as: Tag = 'div', class: extraClass = '' }: Props = Astro.props;
 ---
 
 <Tag class={`mx-auto w-full max-w-3xl px-6 ${extraClass}`}>

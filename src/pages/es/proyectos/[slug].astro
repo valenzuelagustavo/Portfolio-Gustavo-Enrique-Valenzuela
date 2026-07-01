@@ -1,18 +1,20 @@
 ---
 /*
   Detalle de proyecto en español: /es/proyectos/<slug>
-  Genera una página por proyecto (getStaticPaths) y delega el render al
-  componente compartido ProjectDetail con lang="es".
+  Toma los proyectos de la carpeta projects/es/, calcula el slug (sin el prefijo
+  de idioma) y delega el render al componente compartido ProjectDetail.
 */
 import { getCollection } from 'astro:content';
 import ProjectDetail from '../../../components/ProjectDetail.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects', ({ data }) => !data.draft);
-  return projects.map((project) => ({
-    params: { slug: project.id },
-    props: { project },
-  }));
+  return projects
+    .filter((project) => project.id.startsWith('es/'))
+    .map((project) => ({
+      params: { slug: project.id.split('/').pop() },
+      props: { project },
+    }));
 }
 
 const { project } = Astro.props;

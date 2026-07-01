@@ -1,16 +1,17 @@
 ---
 /*
-  Ruta vieja (sin idioma) /proyectos/<slug>: ahora redirige a la versión en
-  español /es/proyectos/<slug>. Mantiene vivos los links antiguos por si alguien
-  los tenía guardados.
+  Ruta vieja (sin idioma) /proyectos/<slug>: redirige a la versión en español
+  /es/proyectos/<slug>. Los slugs salen de la carpeta projects/es/.
 */
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects', ({ data }) => !data.draft);
-  return projects.map((project) => ({
-    params: { slug: project.id },
-  }));
+  return projects
+    .filter((project) => project.id.startsWith('es/'))
+    .map((project) => ({
+      params: { slug: project.id.split('/').pop() },
+    }));
 }
 
 return Astro.redirect(`/es/proyectos/${Astro.params.slug}/`);

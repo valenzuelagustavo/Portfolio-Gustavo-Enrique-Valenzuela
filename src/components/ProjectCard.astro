@@ -1,8 +1,11 @@
 ---
 /*
   Tarjeta de un proyecto. Recibe la entrada de la colección y el idioma.
-  El contenido (título, descripción) está en español; la interfaz (etiqueta de
-  tipo, "Ver detalle") se traduce. El link de detalle lleva el prefijo de idioma.
+  Tanto el contenido (título, descripción) como la interfaz (etiqueta de tipo,
+  "Ver detalle") ya vienen en el idioma correcto: el contenido porque Projects.astro
+  filtra la colección por idioma antes de pasarle cada proyecto a esta tarjeta,
+  y la interfaz porque se traduce acá con t(). El link de detalle lleva el
+  prefijo de idioma.
 
   Nota de accesibilidad: NO envolvemos toda la tarjeta en un <a> para no anidar
   links (el repo/demo quedarían dentro de otro link, lo cual es inválido).
@@ -18,7 +21,10 @@ interface Props {
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
 const { title, description, tech, repo, demo, kind } = project.data;
-const href = `/${lang}/proyectos/${project.id}/`;
+// El id incluye el idioma (ej: "es/dosto"); el slug de la URL es solo la última
+// parte ("dosto").
+const slug = project.id.split('/').pop();
+const href = `/${lang}/proyectos/${slug}/`;
 
 const kindLabel = kind === 'guiado' ? t('project.kind.guiado') : t('project.kind.personal');
 const kindClass =

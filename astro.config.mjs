@@ -22,6 +22,9 @@ export default defineConfig({
 
   // Tailwind v4 se integra como plugin de Vite (no necesita tailwind.config.js).
   vite: {
-    plugins: [tailwindcss()],
+    // El cast /** @type {any} */ evita un falso error de tipos: @tailwindcss/vite
+    // y Astro traen versiones internas de Vite distintas y TypeScript las ve como
+    // incompatibles, aunque en ejecución funciona perfecto.
+    plugins: [/** @type {any} */ (tailwindcss())],
   },
 });
