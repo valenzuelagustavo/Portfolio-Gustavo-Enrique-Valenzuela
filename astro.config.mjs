@@ -4,8 +4,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // Documentación: https://astro.build/config
 export default defineConfig({
-  // TODO: reemplazar por la URL final del deploy en Vercel.
-  site: 'https://gustavovalenzuela.vercel.app',
+  // URL final del deploy en Vercel. Astro la usa para armar URLs absolutas
+  // (canonical, hreflang, og:url) en BaseLayout.astro.
+  site: 'https://portfolio-gustavo-enrique-valenzuel.vercel.app',
 
   // Internacionalización (i18n) nativa de Astro.
   // - locales: idiomas disponibles.
