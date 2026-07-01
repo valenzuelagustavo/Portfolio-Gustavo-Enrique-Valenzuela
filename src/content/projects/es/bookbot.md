@@ -2,9 +2,9 @@
 title: 'Bookbot'
 description: 'Programa en Python que analiza un texto y genera un reporte de estadísticas de palabras y caracteres.'
 tech: ['Python']
-repo: 'https://github.com/valenzuelagustavo'
+repo: 'https://github.com/valenzuelagustavo/bookbot'
 kind: 'guiado'
-order: 5
+order: 6
 draft: false
 ---
 

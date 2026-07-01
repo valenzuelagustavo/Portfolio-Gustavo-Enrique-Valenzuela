@@ -20,11 +20,13 @@ interface Props {
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
 const { Content } = await render(project);
-const { title, description, tech, repo, demo, kind } = project.data;
+const { title, description, tech, repo, demo, kind, status } = project.data;
 
 const kindLabel = kind === 'guiado' ? t('project.kind.guiado') : t('project.kind.personal');
 const kindClass =
   kind === 'guiado' ? 'border-border text-muted' : 'border-accent/40 text-accent';
+// Misma idea que en ProjectCard: segunda etiqueta si el proyecto sigue en curso.
+const isInProgress = status === 'in-progress';
 ---
 
 <BaseLayout lang={lang} title={`${title} — ${'Gustavo Valenzuela'}`} description={description}>
@@ -33,11 +35,20 @@ const kindClass =
   <Container as="main" class="py-16">
     <a href={`/${lang}/#proyectos`} class="link text-sm">{t('project.back')}</a>
 
-    <span
-      class={`mt-6 inline-block rounded-full border px-2 py-0.5 font-mono text-[11px] ${kindClass}`}
-    >
-      {kindLabel}
-    </span>
+    <div class="mt-6 flex flex-wrap gap-2">
+      <span
+        class={`inline-block rounded-full border px-2 py-0.5 font-mono text-[11px] ${kindClass}`}
+      >
+        {kindLabel}
+      </span>
+      {
+        isInProgress && (
+          <span class="inline-block rounded-full border border-amber-400/40 px-2 py-0.5 font-mono text-[11px] text-amber-400">
+            {t('project.status.inProgress')}
+          </span>
+        )
+      }
+    </div>
 
     <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
     <p class="mt-3 text-lg text-muted">{description}</p>

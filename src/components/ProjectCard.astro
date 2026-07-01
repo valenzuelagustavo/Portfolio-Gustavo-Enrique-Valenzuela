@@ -20,7 +20,7 @@ interface Props {
 
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
-const { title, description, tech, repo, demo, kind } = project.data;
+const { title, description, tech, repo, demo, kind, status } = project.data;
 // El id incluye el idioma (ej: "es/dosto"); el slug de la URL es solo la última
 // parte ("dosto").
 const slug = project.id.split('/').pop();
@@ -29,6 +29,9 @@ const href = `/${lang}/proyectos/${slug}/`;
 const kindLabel = kind === 'guiado' ? t('project.kind.guiado') : t('project.kind.personal');
 const kindClass =
   kind === 'guiado' ? 'border-border text-muted' : 'border-accent/40 text-accent';
+// Igual que kind, pero para el estado: si sigue en desarrollo lo mostramos con
+// una segunda etiqueta (nunca ocultamos que está inconcluso).
+const isInProgress = status === 'in-progress';
 ---
 
 <article class="card flex flex-col gap-3 p-5">
@@ -36,11 +39,20 @@ const kindClass =
     <h3 class="text-lg font-semibold">
       <a href={href} class="transition-colors hover:text-accent">{title}</a>
     </h3>
-    <span
-      class={`shrink-0 rounded-full border px-2 py-0.5 font-mono text-[11px] ${kindClass}`}
-    >
-      {kindLabel}
-    </span>
+    <div class="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+      <span
+        class={`rounded-full border px-2 py-0.5 font-mono text-[11px] ${kindClass}`}
+      >
+        {kindLabel}
+      </span>
+      {
+        isInProgress && (
+          <span class="rounded-full border border-amber-400/40 px-2 py-0.5 font-mono text-[11px] text-amber-400">
+            {t('project.status.inProgress')}
+          </span>
+        )
+      }
+    </div>
   </div>
 
   <p class="text-sm text-muted">{description}</p>

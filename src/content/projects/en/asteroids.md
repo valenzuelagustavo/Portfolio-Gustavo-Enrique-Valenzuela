@@ -2,9 +2,9 @@
 title: 'Asteroids in Python'
 description: 'A clone of the classic arcade game built with Python and Pygame, applying object-oriented programming.'
 tech: ['Python', 'Pygame', 'OOP']
-repo: 'https://github.com/valenzuelagustavo'
+repo: 'https://github.com/valenzuelagustavo/Asteroids'
 kind: 'guiado'
-order: 4
+order: 5
 draft: false
 ---
 

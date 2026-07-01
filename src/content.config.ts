@@ -29,6 +29,11 @@ const projects = defineCollection({
       // Tipo de proyecto: 'personal' (100% tuyo) o 'guiado' (nació de un curso).
       // Se muestra como una etiqueta en la tarjeta y en el detalle (transparencia).
       kind: z.enum(['personal', 'guiado']).default('personal'),
+      // Estado del proyecto: 'finished' (terminado) o 'in-progress' (todavía en
+      // desarrollo). Por defecto 'finished' para no tener que tocar los proyectos
+      // que ya están completos. Es otra pata de la misma transparencia que 'kind':
+      // un proyecto inconcluso se muestra igual, pero etiquetado como tal.
+      status: z.enum(['finished', 'in-progress']).default('finished'),
       // Año opcional (se muestra como dato suelto).
       year: z.number().optional(),
       // Si está en true, no se publica (útil para borradores).
