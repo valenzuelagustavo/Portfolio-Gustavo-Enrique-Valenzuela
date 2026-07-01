@@ -1,7 +1,8 @@
 ---
 /*
   Hero: la primera sección. Recibe `lang` y toma todos sus textos del
-  diccionario de traducciones. El nombre y la ruta del CV no cambian con el idioma.
+  diccionario de traducciones. El nombre no cambia con el idioma, pero el CV
+  sí: hay una versión en español y otra en inglés.
 */
 import { site } from '../data/site';
 import { useTranslations, type Lang } from '../i18n/ui';
@@ -37,7 +38,7 @@ const t = useTranslations(lang);
 
     <div class="mt-2 flex flex-wrap gap-3">
       <a href="#proyectos" class="btn-primary">{t('hero.cta.projects')}</a>
-      <a href={site.cvPath} class="btn-ghost" download>{t('hero.cta.cv')}</a>
+      <a href={site.cvPath(lang)} class="btn-ghost" download>{t('hero.cta.cv')}</a>
     </div>
   </div>
 </section>

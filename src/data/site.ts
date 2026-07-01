@@ -10,9 +10,10 @@ export const site = {
   role: 'Estudiante de programación',
   email: 'gustavovalenzuela.dev@gmail.com',
   github: 'https://github.com/valenzuelagustavo',
-  linkedin: '', // TODO: completar cuando tengamos el perfil
-  // Ruta del CV (lo agregamos en public/cv/ en la fase de contenido).
-  cvPath: '/cv/cv-gustavo-valenzuela.pdf',
+  linkedin: 'https://www.linkedin.com/in/gevalenzuela/',
+  // Ruta del CV: hay una versión por idioma (es/en), cada una como PDF
+  // independiente en public/cv/.
+  cvPath: (lang: 'es' | 'en') => `/cv/cv-gustavo-valenzuela-${lang}.pdf`,
   // Idioma por defecto del sitio (español).
   defaultLocale: 'es',
 } as const;
