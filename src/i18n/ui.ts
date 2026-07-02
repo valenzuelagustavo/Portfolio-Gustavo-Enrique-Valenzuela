@@ -20,6 +20,7 @@ export const ui = {
     'nav.aria': 'Navegación principal',
     'nav.about': 'Sobre mí',
     'nav.skills': 'Skills',
+    'nav.certifications': 'Certificaciones',
     'nav.projects': 'Proyectos',
     'nav.contact': 'Contacto',
 
@@ -60,6 +61,11 @@ export const ui = {
     'skills.item.oop': 'Programación orientada a objetos',
     'skills.item.problemSolving': 'Lógica y resolución de problemas',
 
+    'certifications.tag': '// certificaciones',
+    'certifications.title': 'Cursos y certificaciones',
+    'certifications.intro':
+      'Cursos que fui completando en el camino. Los voy a ir sumando a medida que hago más.',
+
     'projects.tag': '// proyectos',
     'projects.title': 'Proyectos',
     'projects.intro':
@@ -84,6 +90,7 @@ export const ui = {
     'nav.aria': 'Main navigation',
     'nav.about': 'About',
     'nav.skills': 'Skills',
+    'nav.certifications': 'Certifications',
     'nav.projects': 'Projects',
     'nav.contact': 'Contact',
 
@@ -123,6 +130,11 @@ export const ui = {
     'skills.item.cli': 'Command line',
     'skills.item.oop': 'Object-oriented programming',
     'skills.item.problemSolving': 'Logic & problem solving',
+
+    'certifications.tag': '// certifications',
+    'certifications.title': 'Courses & certifications',
+    'certifications.intro':
+      "Courses I've completed along the way. I'll keep adding to this as I do more.",
 
     'projects.tag': '// projects',
     'projects.title': 'Projects',
@@ -166,6 +178,7 @@ export function useTranslations(lang: Lang) {
 export const navItems: { id: string; key: UiKey }[] = [
   { id: 'sobre-mi', key: 'nav.about' },
   { id: 'skills', key: 'nav.skills' },
+  { id: 'certificaciones', key: 'nav.certifications' },
   { id: 'proyectos', key: 'nav.projects' },
   { id: 'contacto', key: 'nav.contact' },
 ];
