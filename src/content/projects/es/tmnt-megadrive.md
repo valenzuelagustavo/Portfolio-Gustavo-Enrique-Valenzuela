@@ -7,6 +7,11 @@ kind: 'personal'
 status: 'in-progress'
 order: 3
 draft: false
+cover: ../../../assets/projects/tmnt-megadrive/cover.png
+gallery:
+  - ../../../assets/projects/tmnt-megadrive/cover.png
+  - ../../../assets/projects/tmnt-megadrive/select.png
+  - ../../../assets/projects/tmnt-megadrive/gameplay.png
 ---
 
 ## Qué es

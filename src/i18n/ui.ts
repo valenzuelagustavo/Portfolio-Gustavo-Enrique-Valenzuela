@@ -71,6 +71,7 @@ export const ui = {
     'project.back': '← Volver a proyectos',
     'project.repo': 'Ver repositorio',
     'project.demo': 'Ver demo',
+    'project.screenshot': 'captura',
 
     'contact.tag': '// contacto',
     'contact.title': 'Hablemos',
@@ -134,6 +135,7 @@ export const ui = {
     'project.back': '← Back to projects',
     'project.repo': 'View repository',
     'project.demo': 'View demo',
+    'project.screenshot': 'screenshot',
 
     'contact.tag': '// contact',
     'contact.title': "Let's talk",

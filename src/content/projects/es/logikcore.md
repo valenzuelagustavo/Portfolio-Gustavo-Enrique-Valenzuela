@@ -7,6 +7,11 @@ kind: 'personal'
 status: 'finished'
 order: 4
 draft: false
+cover: ../../../assets/projects/logikcore/cover.png
+gallery:
+  - ../../../assets/projects/logikcore/cover.png
+  - ../../../assets/projects/logikcore/quiz.png
+  - ../../../assets/projects/logikcore/flashcard.png
 ---
 
 ## Qué es

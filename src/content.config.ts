@@ -22,8 +22,13 @@ const projects = defineCollection({
       // Links opcionales.
       repo: z.string().url().optional(),
       demo: z.string().url().optional(),
-      // Imagen de portada opcional (validada y optimizada por Astro).
+      // Imagen de portada opcional (validada y optimizada por Astro). Se usa
+      // como miniatura en la tarjeta de la grilla de proyectos.
       cover: image().optional(),
+      // Galería opcional para la página de detalle: capturas reales del
+      // proyecto funcionando. Si un proyecto no tiene, simplemente no se
+      // muestra ninguna galería (no rompe nada).
+      gallery: z.array(image()).default([]),
       // Orden manual en el listado: menor número = aparece primero.
       order: z.number().default(0),
       // Tipo de proyecto: 'personal' (100% tuyo) o 'guiado' (nació de un curso).

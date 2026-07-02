@@ -7,6 +7,7 @@
   traducir el contenido: solo la interfaz (volver, etiquetas, botones).
 */
 import { render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from './Container.astro';
 import Header from './Header.astro';
@@ -20,7 +21,7 @@ interface Props {
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
 const { Content } = await render(project);
-const { title, description, tech, repo, demo, kind, status } = project.data;
+const { title, description, tech, repo, demo, kind, status, gallery } = project.data;
 
 const kindLabel = kind === 'guiado' ? t('project.kind.guiado') : t('project.kind.personal');
 const kindClass =
@@ -70,6 +71,24 @@ const isInProgress = status === 'in-progress';
               {t('project.repo')}
             </a>
           )}
+        </div>
+      )
+    }
+
+    {
+      gallery.length > 0 && (
+        <div class="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {gallery.map((shot, i) => (
+            <div class="overflow-hidden rounded-lg border border-border">
+              <Image
+                src={shot}
+                alt={`${title} — ${t('project.screenshot')} ${i + 1}`}
+                width={720}
+                height={405}
+                class="w-full object-cover"
+              />
+            </div>
+          ))}
         </div>
       )
     }

@@ -11,6 +11,7 @@
   links (el repo/demo quedarían dentro de otro link, lo cual es inválido).
 */
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -20,7 +21,7 @@ interface Props {
 
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
-const { title, description, tech, repo, demo, kind, status } = project.data;
+const { title, description, tech, repo, demo, kind, status, cover } = project.data;
 // El id incluye el idioma (ej: "es/dosto"); el slug de la URL es solo la última
 // parte ("dosto").
 const slug = project.id.split('/').pop();
@@ -35,6 +36,20 @@ const isInProgress = status === 'in-progress';
 ---
 
 <article class="card flex flex-col gap-3 p-5">
+  {
+    cover && (
+      <a href={href} class="block overflow-hidden rounded-lg" tabindex="-1" aria-hidden="true">
+        <Image
+          src={cover}
+          alt=""
+          width={480}
+          height={270}
+          class="aspect-video w-full object-cover transition-transform duration-200 hover:scale-[1.03]"
+        />
+      </a>
+    )
+  }
+
   <div class="flex items-start justify-between gap-3">
     <h3 class="text-lg font-semibold">
       <a href={href} class="transition-colors hover:text-accent">{title}</a>

@@ -6,6 +6,10 @@ repo: 'https://github.com/valenzuelagustavo/Swapprite'
 kind: 'personal'
 order: 2
 draft: false
+cover: ../../../assets/projects/swapprite/cover.png
+gallery:
+  - ../../../assets/projects/swapprite/cover.png
+  - ../../../assets/projects/swapprite/gui-exito.png
 ---
 
 ## Qué es

@@ -6,6 +6,10 @@ repo: 'https://github.com/valenzuelagustavo/Dosto'
 kind: 'personal'
 order: 1
 draft: false
+cover: ../../../assets/projects/dosto/cover.png
+gallery:
+  - ../../../assets/projects/dosto/cover.png
+  - ../../../assets/projects/dosto/extractor-exito.png
 ---
 
 ## What it is
