@@ -1,8 +1,14 @@
 ---
 /*
   Sección "Skills". Recibe `lang`. El heading y los títulos de grupo salen del
-  diccionario. Los items pueden ser un string plano (nombre propio, se muestra
-  tal cual) o un objeto { key } (se traduce con t()).
+  diccionario. Los items pueden ser { name, color } (nombre propio, se
+  muestra tal cual y con su color de marca) o un objeto { key } (concepto sin
+  marca, se traduce con t() y se muestra con el estilo neutro de siempre).
+
+  El color se pasa como variable CSS (--chip-color) y la clase .chip--tech
+  (definida en global.css) la usa con color-mix(). Esa clase es aparte de
+  .chip para no afectar las chips de tecnología que se muestran en las
+  tarjetas/detalle de proyectos, que comparten .chip pero no deben cambiar.
 */
 import { skillGroups } from '../data/skills';
 import { useTranslations, type Lang } from '../i18n/ui';
@@ -29,7 +35,12 @@ const t = useTranslations(lang);
           </h3>
           <ul class="mt-4 flex flex-wrap gap-2">
             {group.items.map((item) => (
-              <li class="chip">{typeof item === 'string' ? item : t(item.key)}</li>
+              <li
+                class:list={['chip', { 'chip--tech': 'color' in item && item.color }]}
+                style={'color' in item && item.color ? `--chip-color: ${item.color}` : undefined}
+              >
+                {'key' in item ? t(item.key) : item.name}
+              </li>
             ))}
           </ul>
         </div>
