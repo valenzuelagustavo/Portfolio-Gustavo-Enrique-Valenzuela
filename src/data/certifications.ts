@@ -18,6 +18,9 @@ export interface Certification {
 }
 
 export const certifications: Certification[] = [
+  // freeCodeCamp
+  { title: 'A2 English for Developers (Beta)', provider: 'freeCodeCamp', date: '2026-07-09' },
+
   // Santander Open Academy
   { title: 'Python', provider: 'Santander Open Academy', date: '2026-06-24' },
 
