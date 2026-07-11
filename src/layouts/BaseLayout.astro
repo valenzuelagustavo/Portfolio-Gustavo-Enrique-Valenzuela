@@ -63,20 +63,24 @@ const rest = Astro.url.pathname.replace(/^\/(es|en)/, '') || '/';
     <slot />
 
     <script>
-      // Arma los links de email en tiempo de ejecución, a partir del valor
-      // ofuscado en data-email (ver src/lib/obfuscate-email.ts). Así el email
-      // real nunca existe en el HTML/JS que se sirve, solo en la memoria del
-      // navegador de alguien que efectivamente abrió la página.
+      // Links de email a prueba de scraping (ver src/lib/obfuscate-email.ts).
+      //
+      // Clave: el email NUNCA se escribe en el DOM — ni en un href, ni como
+      // texto visible, ni al cargar ni después. Las extensiones que cosechan
+      // emails leen el DOM ya renderizado (por eso la versión anterior, que
+      // armaba el mailto: al cargar la página, seguía siendo capturable).
+      // Acá el email solo se decodifica en memoria durante el click de una
+      // persona real, y se navega directo al mailto: sin dejar rastro en el
+      // documento.
       import { decodeEmail } from '../lib/obfuscate-email';
 
       document.querySelectorAll<HTMLAnchorElement>('[data-email]').forEach((el) => {
-        const encoded = el.dataset.email;
-        if (!encoded) return;
-        const email = decodeEmail(encoded);
-        el.href = `mailto:${email}`;
-        const textEl = el.querySelector<HTMLElement>('[data-email-text]');
-        if (textEl) textEl.textContent = email;
-        delete el.dataset.email;
+        el.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          const encoded = el.dataset.email;
+          if (!encoded) return;
+          window.location.href = `mailto:${decodeEmail(encoded)}`;
+        });
       });
     </script>
   </body>

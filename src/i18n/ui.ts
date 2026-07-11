@@ -83,6 +83,9 @@ export const ui = {
     'contact.title': 'Hablemos',
     'contact.intro':
       '¿Tenés una oportunidad o querés charlar sobre un proyecto? Escribime por cualquiera de estos medios.',
+    // Texto de la tarjeta de email. No mostramos la dirección real: cualquier
+    // string con forma de email en el DOM es cosechable por bots/extensiones.
+    'contact.emailAction': 'Hacé click para escribirme',
 
     'footer.madeWith': 'Hecho con',
   },
@@ -153,6 +156,9 @@ export const ui = {
     'contact.title': "Let's talk",
     'contact.intro':
       'Have an opportunity or want to chat about a project? Reach me through any of these.',
+    // Email card text. We never render the real address: any email-shaped
+    // string in the DOM can be harvested by bots/extensions.
+    'contact.emailAction': 'Click to email me',
 
     'footer.madeWith': 'Built with',
   },

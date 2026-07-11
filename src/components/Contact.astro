@@ -33,7 +33,9 @@ const t = useTranslations(lang);
       </span>
       <span class="min-w-0">
         <span class="block text-sm font-semibold text-fg">Email</span>
-        <span class="block truncate text-sm text-muted" data-email-text></span>
+        <!-- No mostramos la dirección: cualquier texto con forma de email en
+             el DOM es cosechable por extensiones. El click abre el mailto. -->
+        <span class="block truncate text-sm text-muted">{t('contact.emailAction')}</span>
       </span>
     </a>
 
