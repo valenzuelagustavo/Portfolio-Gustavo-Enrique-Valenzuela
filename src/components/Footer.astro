@@ -3,7 +3,7 @@
   Footer. Recibe `lang`. Año dinámico (build), nombre, créditos del stack y
   links sociales. Va a lo ancho completo, por eso se usa fuera del Container.
 */
-import { site } from '../data/site';
+import { site, obfuscatedEmail } from '../data/site';
 import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -28,7 +28,12 @@ const year = new Date().getFullYear();
     </p>
 
     <div class="flex items-center gap-4">
-      <a href={`mailto:${site.email}`} class="transition-colors hover:text-fg" aria-label="Email">
+      <a
+        href="#"
+        class="transition-colors hover:text-fg"
+        aria-label="Email"
+        data-email={obfuscatedEmail}
+      >
         Email
       </a>
       <a href={site.github} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-fg">

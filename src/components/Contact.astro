@@ -3,7 +3,7 @@
   Sección "Contacto". Recibe `lang`. Los textos de interfaz se traducen; el
   email, el usuario de GitHub y el de LinkedIn no cambian con el idioma.
 */
-import { site } from '../data/site';
+import { site, obfuscatedEmail } from '../data/site';
 import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -21,7 +21,7 @@ const t = useTranslations(lang);
 
   <div class="mt-8 grid gap-4 sm:grid-cols-2">
     <!-- Email -->
-    <a href={`mailto:${site.email}`} class="card flex items-center gap-4 p-5">
+    <a href="#" class="card flex items-center gap-4 p-5" data-email={obfuscatedEmail}>
       <span
         class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-base text-accent ring-1 ring-border"
         aria-hidden="true"
@@ -33,7 +33,7 @@ const t = useTranslations(lang);
       </span>
       <span class="min-w-0">
         <span class="block text-sm font-semibold text-fg">Email</span>
-        <span class="block truncate text-sm text-muted">{site.email}</span>
+        <span class="block truncate text-sm text-muted" data-email-text></span>
       </span>
     </a>
 

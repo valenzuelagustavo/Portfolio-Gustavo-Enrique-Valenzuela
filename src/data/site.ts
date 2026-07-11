@@ -4,6 +4,8 @@
   i18n (Fase 5), los textos traducibles van a vivir en archivos aparte; esto
   queda para datos que NO cambian según el idioma (links, email, etc.).
 */
+import { encodeEmail } from '../lib/obfuscate-email';
+
 export const site = {
   name: 'Gustavo Valenzuela',
   // Frase corta de "quién soy" — la pulimos en la fase de contenido.
@@ -17,6 +19,15 @@ export const site = {
   // Idioma por defecto del sitio (español).
   defaultLocale: 'es',
 } as const;
+
+/*
+  Versión ofuscada de site.email, ya calculada en build time. Los componentes
+  que muestran el email (Footer, Contact) NUNCA deben usar site.email
+  directamente en el markup: tienen que usar este valor en un data-attribute,
+  para que el email real no quede en texto plano en el HTML servido. Ver
+  src/lib/obfuscate-email.ts para el detalle y las limitaciones de esto.
+*/
+export const obfuscatedEmail = encodeEmail(site.email);
 
 /*
   Navegación principal. Cada item apunta a un ancla (#) de la página única.

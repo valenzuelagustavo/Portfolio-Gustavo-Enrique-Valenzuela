@@ -61,5 +61,23 @@ const rest = Astro.url.pathname.replace(/^\/(es|en)/, '') || '/';
   </head>
   <body class="min-h-screen bg-base font-sans text-fg antialiased">
     <slot />
+
+    <script>
+      // Arma los links de email en tiempo de ejecución, a partir del valor
+      // ofuscado en data-email (ver src/lib/obfuscate-email.ts). Así el email
+      // real nunca existe en el HTML/JS que se sirve, solo en la memoria del
+      // navegador de alguien que efectivamente abrió la página.
+      import { decodeEmail } from '../lib/obfuscate-email';
+
+      document.querySelectorAll<HTMLAnchorElement>('[data-email]').forEach((el) => {
+        const encoded = el.dataset.email;
+        if (!encoded) return;
+        const email = decodeEmail(encoded);
+        el.href = `mailto:${email}`;
+        const textEl = el.querySelector<HTMLElement>('[data-email-text]');
+        if (textEl) textEl.textContent = email;
+        delete el.dataset.email;
+      });
+    </script>
   </body>
 </html>
